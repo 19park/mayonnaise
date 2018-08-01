@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # IWEEE 2017 WebSite
 
 > IWEEE:International Workshop on Effective Engineering Education 2017 WebSite
@@ -125,3 +126,6 @@ busTable: {
 サーバーへ設置するときは`yarn run publish`を実行します．設定に従い静的ファイルが生成されます．生成されたファイルは`dist/`ディレクトリにあります．このファイルをWebサーバーへコピーすれば終了です．
 
 `iweee.config.json`で設定したURLの設定と相違が無いように注意してください．
+=======
+# vuejs-meterial
+>>>>>>> 17a16fe2b8532667b5bebce8021334511309f03b
