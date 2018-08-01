@@ -2,10 +2,10 @@
   <div class="mdl-layout__drawer">
     <span class="mdl-typography--text-center">
       <img style="height:100%; width:100%;" src="~/assets/img/iweee-logo-square.png" />
-      <h1 class="mdl-typography--display-1 title"><span style="display:none;">IWEEE</span>{{ iweee.year }}</h1>
+      <h1 class="mdl-typography--display-1 title"><span style="display:none;">마요와네즈</span></h1>
     </span>
     <nav class="mdl-navigation">
-      <nuxt-link to="/" class="mdl-navigation__link typcn typcn-home iweee-navigation__link--home" @click.native="closeDrawer">Home</nuxt-link>
+      <nuxt-link to="/" class="mdl-navigation__link typcn typcn-home iweee-navigation__link--home" @click.native="closeDrawer">메인</nuxt-link>
       <nuxt-link to="/about" class="mdl-navigation__link typcn typcn-info-large iweee-navigation__link--about" @click.native="closeDrawer">About</nuxt-link>
       <nuxt-link to="/program-schedules" class="mdl-navigation__link typcn typcn-document-text iweee-navigation__link--program-schedules" @click.native="closeDrawer">Program Schedules</nuxt-link>
       <nuxt-link to="/important-dates" class="mdl-navigation__link typcn typcn-calendar iweee-navigation__link--important-dates" @click.native="closeDrawer">Important Dates</nuxt-link>
