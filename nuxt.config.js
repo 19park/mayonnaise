@@ -3,11 +3,11 @@ const iweee = require('./iweee.config.json')
 
 module.exports = {
   head: {
-    titleTemplate: `%s - IWEEE:International Workshop on Effective Engineering Education ${iweee.year}`,
+    titleTemplate: `%s - 마요와네즈 ${iweee.year}`,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: `IWEEE:International Workshop on Effective Engineering Education ${iweee.year} Official WebSite` },
+      { hid: 'description', name: 'description', content: `Mayonnaise Official WebSite` },
       { name: 'theme-color', content: '#ffffff' }
     ],
     link: [
