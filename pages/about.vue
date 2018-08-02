@@ -11,13 +11,13 @@
 				 </button>
 
 				 <button v-on:click="$upload.reset('product-gallery')" :disabled="$upload.meta('product-gallery').state === 'sending'">
-					  Clear
+					  초기화하기
 				 </button>
 			</div>
 
 			<div class="progress">
 				 <div class="progress-bar" :style="'width: ' + $upload.meta('product-gallery').percentComplete + '%;'">
-					  {{ $upload.meta('product-gallery').percentComplete }}% Complete
+					  {{ $upload.meta('product-gallery').percentComplete }}% 완료
 				 </div>
 			</div>
 
@@ -46,14 +46,14 @@
 					  <div>
 							{{ file.name }}
 							<br/>
-							Queued for upload
+							업로드 대기중..
 					  </div>
 				 </div>
 
 				 <div v-for="file in $upload.files('product-gallery').success">
 					  {{ file.name }}
 					  <br/>
-					  Uploaded successfully.
+					  업로드 완료.
 				 </div>
 
 				 <div v-for="file in $upload.files('product-gallery').error">
@@ -96,7 +96,7 @@ export default {
 
 	mounted() {
 		 this.$upload.option('product-gallery', {
-			  url: 'products/' + this.product.id + '/gallery'
+			  url: '/gallery'
 		 });
 	},
 
