@@ -78,11 +78,7 @@ export default {
     title: 'About'
   },
   created() {
-		 
-	},
-
-	mounted() {
-		this.$upload.on('product-gallery', {
+		 this.$upload.on('product-gallery', {
 			  maxFilesSelect: 20,
 			  dropzoneId: 'product-gallery-dropzone',
 			  multiple: true,
@@ -96,7 +92,9 @@ export default {
 					this.$msgbag.success('File upload complete.');
 			  }
 		 });
+	},
 
+	mounted() {
 		 this.$upload.option('product-gallery', {
 			  url: '/gallery'
 		 });
