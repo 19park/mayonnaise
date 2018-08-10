@@ -51,7 +51,9 @@ module.exports = {
   loading: { color: "#3B8070" },
   build: {
     extend(config, ctx) {
-      const proxy = { proxy: { "/api": "http://localhost:3000" } };
+      const proxy = {
+        proxy: { "/api": "http://sempre9mai.cafe24.com/2018/api" }
+      };
       config.devServer = Object.create({}, config.devServer, proxy);
       /*
       if (ctx.dev && ctx.isClient) {
@@ -64,10 +66,10 @@ module.exports = {
       }
       */
     },
-    vendor: ["material-design-lite/material.min.js"]
+    vendor: ["material-design-lite/material.min.js", "vue-simple-uploader"]
   },
   generate: {
-    dir: resolve(__dirname, "../mayonnaise_back/public" + iweee.serverPath)
+    dir: resolve(__dirname, "/dist" + iweee.serverPath)
   },
   router: {
     base: process.env.NODE_ENV === "dev" ? "/" : iweee.serverPath
