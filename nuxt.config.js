@@ -2,6 +2,7 @@ const { resolve } = require("path");
 const iweee = require("./iweee.config.json");
 
 module.exports = {
+  mode: "spa",
   head: {
     titleTemplate: `%s - 마요와네즈 ${iweee.year}`,
     meta: [
