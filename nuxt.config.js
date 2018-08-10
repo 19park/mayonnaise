@@ -69,7 +69,7 @@ module.exports = {
     vendor: ["material-design-lite/material.min.js", "vue-simple-uploader"]
   },
   generate: {
-    dir: resolve(__dirname, "/dist" + iweee.serverPath)
+    dir: resolve(__dirname, "./dist" + iweee.serverPath)
   },
   router: {
     base: process.env.NODE_ENV === "dev" ? "/" : iweee.serverPath
