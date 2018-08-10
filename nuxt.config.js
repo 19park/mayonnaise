@@ -53,7 +53,7 @@ module.exports = {
   build: {
     extend(config, ctx) {
       const proxy = {
-        proxy: { "/api": "http://sempre9mai.cafe24.com/2018/api" }
+        proxy: { "/api": "http://sempre9mai.cafe24.com/2018/api/mayonnaise" }
       };
       config.devServer = Object.create({}, config.devServer, proxy);
       /*

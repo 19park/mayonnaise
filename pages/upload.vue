@@ -3,19 +3,9 @@
       <h4 slot="title">업로드하기</h4>
       <div slot="content">
          <section>
-            <div class="view-area">
-               <uploader :options="options" class="uploader-example">
-                  <uploader-unsupport></uploader-unsupport>
-                  <uploader-drop>
-                     <p>사진을 드래그&amp;드롭 하거나, </p>
-                     <uploader-btn>파일선택하기</uploader-btn>
-                     <uploader-btn :attrs="attrs">이미지선택하기</uploader-btn>
-                     <!--
-                     <uploader-btn :directory="true">select folder</uploader-btn>
-                     //-->
-                  </uploader-drop>
-                  <uploader-list></uploader-list>
-               </uploader>
+            <div class="dropbox">
+               <input class="input-file" type="file" name="myfile" @change="upload($event.target.name, $event.target.files)" @drop="upload($event.target.name, $event.target.files)">
+               <h2>파일을 드래그해서 드랍해주세요. </h2>
             </div>
          </section>
       </div>
@@ -23,41 +13,58 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import uploader from 'vue-simple-uploader'
+import axios from 'axios'
 
-Vue.use(uploader)
 export default {
    head: {
       title: 'Upload'
    },
    data() {
       return {
-         options: {
-            // https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js
-            target: '/api',
-            testChunks: false
-         },
-         attrs: {
-            accept: 'image/*'
-         }
+
+      }
+   },
+   methods: {
+      upload(name, files) {
+         const formData = new FormData();
+         formData.append(name, files[0], files[0].name);
+         const url = "http://sempre9mai.cafe24.com/2018/api/mayonnaise/upload.php";
+         axios.post(url, {
+            headers: {
+               'Access-Control-Allow-Origin': '*'
+            },
+            crossdomain: true
+         }, formData).then(response => {
+            console.log(response);
+         }).catch(err => {
+            console.log(err)
+         })
       }
    }
 }
 </script>
 <style>
-.uploader-example {
-  padding: 15px;
+.dropbox {
+  outline: 2px dashed #aaa;
+  background: #7fb4dd;
+  width: 300px;
+  height: 300px;
+  position: relative;
   margin: 0 auto;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
-.uploader-example .uploader-btn {
-  margin-right: 4px;
+.dropbox > h2 {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 2;
 }
-.uploader-example .uploader-list {
-  max-height: 440px;
-  overflow: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
+.input-file {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 3;
 }
 </style>
