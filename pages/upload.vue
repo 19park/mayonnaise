@@ -33,6 +33,7 @@ export default {
          Array.from(files).forEach((f) => {
             formData.append('myfile[]', f)
          })
+         alert("add formdata")
 
          axios.post(url, formData).then(res => {
             alert(res.data.RESULT)
@@ -50,6 +51,9 @@ export default {
                   break
                case "L":
                   alert("파일사이즈가 너무커요ㅠ")
+                  break
+               default:
+                  alert(getResult)
                   break
             }
          }).catch(err => {

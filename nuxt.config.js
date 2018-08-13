@@ -8,6 +8,9 @@ module.exports = {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { "http-equiv": "pragma", content: "no-cache" },
+      { "http-equiv": "cache-control", content: "no-cache" },
+      { "http-equiv": "expires", content: "0" },
       {
         hid: "description",
         name: "description",
