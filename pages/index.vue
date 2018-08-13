@@ -2,7 +2,7 @@
   <PageArticle>
     <article slot="content" class="mdl-typography--text-center">
       <h1 class="mdl-typography--display-1">mayonnaise</h1>
-      <p>August 1, 2018</p>
+      <p>August, 2018</p>
     </article>
   </PageArticle>
 </template>

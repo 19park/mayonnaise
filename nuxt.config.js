@@ -4,7 +4,7 @@ const iweee = require("./iweee.config.json");
 module.exports = {
   mode: "spa",
   head: {
-    titleTemplate: `%s - mayonnaise ${iweee.year}`,
+    titleTemplate: `mayonnaise ${iweee.year}`,
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
