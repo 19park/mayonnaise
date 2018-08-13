@@ -4,7 +4,7 @@
       <div slot="content">
          <section>
             <div class="dropbox">
-               <input class="input-file" type="file" name="myfile" @change="upload($event.target.name, $event.target.files)" @drop="upload($event.target.name, $event.target.files)">
+               <input class="input-file" type="file" name="myfile[]" @change="upload($event.target.name, $event.target.files)" @drop="upload($event.target.name, $event.target.files)" multiple>
                <h2>파일을 드래그해서 드랍해주세요. </h2>
             </div>
          </section>
@@ -27,15 +27,29 @@ export default {
    methods: {
       upload(name, files) {
          const formData = new FormData();
-         formData.append(name, files[0], files[0].name);
          const url = "http://sempre9mai.cafe24.com/2018/api/mayonnaise/upload.php";
-         axios.post(url, {
-            headers: {
-               'Access-Control-Allow-Origin': '*'
-            },
-            crossdomain: true
-         }, formData).then(response => {
-            console.log(response);
+
+         Array.from(files).forEach((f) => {
+            formData.append('myfile[]', f)
+         })
+
+         axios.post(url, formData).then(res => {
+            let getResult = res.data.RESULT
+
+            switch (getResult) {
+               case "Y":
+                  alert("업로드 성공했어요ㅋ")
+                  break
+               case "E":
+                  alert("시스템사정으로 업로드에 실패했어요ㅠ")
+                  break
+               case "N":
+                  alert("확장자는 jpg, jpeg, png, gif만 가능해요ㅠ")
+                  break
+               case "L":
+                  alert("파일사이즈가 너무커요ㅠ")
+                  break
+            }
          }).catch(err => {
             console.log(err)
          })
@@ -54,9 +68,12 @@ export default {
 }
 .dropbox > h2 {
   position: absolute;
+  width: 100%;
   top: 50px;
   left: 0;
   z-index: 2;
+  text-align: center;
+  font-size: 12pt;
 }
 .input-file {
   position: absolute;
