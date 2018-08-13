@@ -11,10 +11,22 @@ module.exports = {
       {
         hid: "description",
         name: "description",
-        content: `Mayonnaise Official WebSite`
+        content: "Mayonnaise Official WebSite"
       },
-      { hid: "og:image", name: "og:image", content: "meta-image.png" },
-      { name: "theme-color", content: "#ffffff" }
+      { hid: "og:type", name: "og:type", content: "website" },
+      { hid: "og:title", name: "og:title", content: "mayonnaise" },
+      {
+        hid: "og:description",
+        name: "og:description",
+        content: "Mayonnaise Official WebSite"
+      },
+      {
+        hid: "og:image",
+        name: "og:image",
+        content: "https://mayonnaise.ml/meta-image.png"
+      },
+      { hid: "og:url", name: "og:url", content: "https://mayonnaise.ml" },
+      { name: "theme-color", content: "#888" }
     ],
     link: [
       {
