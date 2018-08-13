@@ -3,7 +3,7 @@
     <h4 slot="title">갤러리</h4>
     <div slot="content">
       <section>
-        <h4>갤러리,,</h4>
+        <h4>gallery list..</h4>
 
         <div class="view-area">
         </div>
