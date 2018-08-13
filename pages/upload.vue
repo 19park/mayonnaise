@@ -31,9 +31,6 @@ export default {
          fullPage: true
       }
    },
-   components: {
-      Loading
-   },
    methods: {
       upload(name, files) {
          const formData = new FormData();
