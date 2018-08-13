@@ -37,11 +37,13 @@ export default {
 
          axios.post(url, formData).then(res => {
             alert(res.data.RESULT)
-            let getResult = res.data.RESULT
+            let getData = res.data
+            let getResult = getData.RESULT
+            let getPath = getData.PATH
 
             switch (getResult) {
                case "Y":
-                  alert("업로드 성공했어요ㅋ")
+                  alert("업로드 성공했어요ㅋ\n" + getPath)
                   break
                case "E":
                   alert("시스템사정으로 업로드에 실패했어요ㅠ")
