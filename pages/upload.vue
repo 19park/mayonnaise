@@ -28,7 +28,7 @@ export default {
       upload(name, files) {
          alert(name)
          const formData = new FormData();
-         const url = "http://sempre9mai.cafe24.com/2018/api/mayonnaise/upload.php";
+         const url = "https://sempre9mai.cafe24.com/2018/api/mayonnaise/upload.php";
 
          Array.from(files).forEach((f) => {
             formData.append('myfile[]', f)
@@ -60,7 +60,7 @@ export default {
             }
          }).catch(err => {
             console.log(err)
-            alert(json.stringify(err))
+            alert(JSON.stringify(err))
          })
       }
    }
