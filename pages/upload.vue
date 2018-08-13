@@ -26,24 +26,21 @@ export default {
    },
    methods: {
       upload(name, files) {
-         alert(name)
          const formData = new FormData();
          const url = "https://sempre9mai.cafe24.com/2018/api/mayonnaise/upload.php";
 
          Array.from(files).forEach((f) => {
             formData.append('myfile[]', f)
          })
-         alert("add formdata")
 
          axios.post(url, formData).then(res => {
-            alert(res.data.RESULT)
             let getData = res.data
             let getResult = getData.RESULT
             let getPath = getData.PATH
 
             switch (getResult) {
                case "Y":
-                  alert("업로드 성공했어요ㅋ\n" + getPath)
+                  alert("업로드 성공했어요ㅋ")
                   break
                case "E":
                   alert("시스템사정으로 업로드에 실패했어요ㅠ")
@@ -59,8 +56,8 @@ export default {
                   break
             }
          }).catch(err => {
-            console.log(err)
-            alert(JSON.stringify(err))
+            console.log("업로드실패..ㅠ", err)
+            alert("업로드실패..ㅠ\n" + JSON.stringify(err))
          })
       }
    }
