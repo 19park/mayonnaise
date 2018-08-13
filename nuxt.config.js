@@ -13,6 +13,7 @@ module.exports = {
         name: "description",
         content: `Mayonnaise Official WebSite`
       },
+      { hid: "og:image", name: "og:image", content: "meta-image.png" },
       { name: "theme-color", content: "#ffffff" }
     ],
     link: [
