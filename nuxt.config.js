@@ -83,7 +83,7 @@ module.exports = {
       }
       */
     },
-    vendor: ["material-design-lite/material.min.js", "vue-simple-uploader"]
+    vendor: ["material-design-lite/material.min.js", "vue-loading-overlay"]
   },
   generate: {
     dir: resolve(__dirname, "./dist" + iweee.serverPath)

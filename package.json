@@ -19,7 +19,7 @@
     "nuxt": "^1.0.0-rc11",
     "sass-loader": "^6.0.6",
     "typicons.font": "^2.0.9",
-    "vue-simple-uploader": "^0.5.0"
+    "vue-loading-overlay": "^2.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

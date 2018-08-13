@@ -1,5 +1,5 @@
 <template>
-   <PageArticle>
+   <PageArticle class="loading-parent" ref="formContainer">
       <h4 slot="title">업로드하기</h4>
       <div slot="content">
          <section>
@@ -13,6 +13,13 @@
 </template>
 
 <script>
+import Vue from 'vue';
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.min.css';
+// Init plugin
+Vue.use(Loading);
 import axios from 'axios'
 
 export default {
@@ -21,8 +28,11 @@ export default {
    },
    data() {
       return {
-
+         fullPage: true
       }
+   },
+   components: {
+      Loading
    },
    methods: {
       upload(name, files) {
@@ -32,6 +42,10 @@ export default {
          Array.from(files).forEach((f) => {
             formData.append('myfile[]', f)
          })
+
+         let loader = this.$loading.show({
+            container: this.fullPage ? null : this.$refs.formContainer
+         });
 
          axios.post(url, formData).then(res => {
             let getData = res.data
@@ -55,15 +69,21 @@ export default {
                   alert(getResult)
                   break
             }
+            loader.hide()
          }).catch(err => {
             console.log("업로드실패..ㅠ", err)
             alert("업로드실패..ㅠ\n" + JSON.stringify(err))
+            loader.hide()
          })
       }
    }
 }
 </script>
 <style>
+.loading-parent {
+  position: relative;
+}
+
 .dropbox {
   outline: 2px dashed #aaa;
   background: #7fb4dd;
