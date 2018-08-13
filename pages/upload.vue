@@ -26,6 +26,7 @@ export default {
    },
    methods: {
       upload(name, files) {
+         alert(name)
          const formData = new FormData();
          const url = "http://sempre9mai.cafe24.com/2018/api/mayonnaise/upload.php";
 
