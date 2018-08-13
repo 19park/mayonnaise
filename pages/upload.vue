@@ -34,7 +34,7 @@ export default {
          })
 
          axios.post(url, formData).then(res => {
-            alert(res.data)
+            alert(res.data.RESULT)
             let getResult = res.data.RESULT
 
             switch (getResult) {
