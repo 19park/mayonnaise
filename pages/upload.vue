@@ -49,7 +49,9 @@ export default {
             let getData = res.data
             let getResult = getData.RESULT
             let getPath = getData.PATH
+            let getExt = getData.EXT
 
+console.log(res)
             switch (getResult) {
                case "Y":
                   alert("업로드 성공했어요ㅋ")
@@ -58,7 +60,7 @@ export default {
                   alert("시스템사정으로 업로드에 실패했어요ㅠ")
                   break
                case "N":
-                  alert("확장자는 jpg, jpeg, png, gif만 가능해요ㅠ")
+                  alert("확장자는 jpg, jpeg, png, gif만 가능해요ㅠ\n=>"+ getExt)
                   break
                case "L":
                   alert("파일사이즈가 너무커요ㅠ")

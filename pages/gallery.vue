@@ -2,13 +2,18 @@
   <PageArticle>
     <h4 slot="title">갤러리</h4>
     <div slot="content" ref="formContainer">
-      <section>
+      <section infinite-wrapper>
 
         <isotope ref="isotope" :itemSelector="option.itemSelector" :options='option' :list="items" :filter="filterOption" :sort="sortOption" class="grid-container" v-images-loaded:on="getLoadingCallBack()">
           <div v-for="item in items" :key="item.RNO">
-            <img :src="'https://sempre9mai.cafe24.com/2018/api/mayonnaise/upload/'+item.PATH" />
+            <img :src="item.TPATH" v-img="item.PATH" />
           </div>
         </isotope>
+
+        <infinite-loading force-use-infinite-wrapper="true" @infinite="getGallerylist" ref="infiniteLoading">
+          <span slot="no-more">모든 이미지를 조회했어용..</span>
+          <span slot="no-results">마지막 이미지에용..</span>
+        </infinite-loading>
 
       </section>
     </div>
@@ -24,10 +29,14 @@ import 'vue-loading-overlay/dist/vue-loading.min.css';
 // Init plugin
 Vue.use(Loading);
 
+import VueImg from 'v-img';
+
+Vue.use(VueImg);
+
 import axios from 'axios'
 import imagesLoaded from 'vue-images-loaded'
 import isotope from 'vueisotope'
-//import { Stack, StackItem } from 'vue-stack-grid'
+import InfiniteLoading from 'vue-infinite-loading'
 
 export default {
   head: {
@@ -56,8 +65,8 @@ export default {
     imagesLoaded
   },
   components: {
-    isotope,
-    //Stack, StackItem 
+    InfiniteLoading,
+    isotope
   },
   methods: {
     getLoadingCallBack() {
@@ -79,27 +88,39 @@ export default {
         }
       }
     },
-    getGallerylist() {
+    getGallerylist($state) {
       let self = this
       let $url = "https://sempre9mai.cafe24.com/2018/api/mayonnaise/getGalleryList.php"
 
       let loader = this.$loading.show({
         container: this.fullPage ? null : this.$refs.formContainer
       });
-
+      
       axios.get($url, {
         params: {
           page: self.currentPage
         }
       }).then(res => {
         let getList = res.data.LIST
+        let resCnt = parseInt(getList.length)
 
-        for (let i = 0; i < getList.length; i++) {
-          self.items.push(getList[i])
-          //window.dispatchEvent(new Event('resize'));
+        if (resCnt < 0) {
+          $state.complete()
+        } else {
+          for (let i = 0; i < getList.length; i++) {
+            self.items.push(getList[i])
+            //window.dispatchEvent(new Event('resize'));
+          }
+          self.currentPage++
+          loader.hide()
+          
+          if (resCnt < 20) {
+              $state.complete()
+          } else {
+              $state.loaded()
+          }
         }
-        self.currentPage++
-        loader.hide()
+        
       }).catch(err => {
         console.log(err)
         alert("리스트를 가져오는데 실패했어요ㅠ")
@@ -108,7 +129,7 @@ export default {
     }
   },
   mounted() {
-    this.getGallerylist()
+    //this.getGallerylist()
   }
 }
 </script>
@@ -135,7 +156,7 @@ export default {
 
 @media (min-width: 450px) and (max-width: 900px) {
   .grid-item {
-    max-width: 32%;
+    max-width: 31%;
   }
 }
 
