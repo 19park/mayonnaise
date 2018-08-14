@@ -1,8 +1,8 @@
 {
-  "name": "iweee",
-  "version": "0.2017.1",
-  "description": "IWEEE WebSite",
-  "author": "Makoto Uju <ainehanta@hotmail.co.jp>",
+  "name": "19park",
+  "version": "0.2018.1",
+  "description": "19park WebSite",
+  "author": "19park <sempre9mai@naver.com>",
   "private": true,
   "scripts": {
     "dev": "cross-env HOST=0.0.0.0 PORT=3333 nuxt",
