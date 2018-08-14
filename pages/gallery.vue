@@ -4,11 +4,12 @@
     <div slot="content">
       <section>
         <div class="view-area" v-images-loaded:on.progress="imageProgress">
-          <stack :column-min-width="200" :gutter-width="8" :gutter-height="8" :monitor-images-loaded="true" @click="selected=element">
-            <stack-item v-for="(item, i) in items" :key="i">
+
+          <isotope :itemSelector="option.itemSelector" :options='option' :list="items" :filter="filterOption" :sort="sortOption">
+            <div v-for="item in items" :key="item.RNO">
               <img :src="'https://sempre9mai.cafe24.com/2018/api/mayonnaise/upload/'+item.PATH" />
-            </stack-item>
-          </stack>
+            </div>
+          </isotope>
         </div>
       </section>
     </div>
@@ -18,6 +19,7 @@
 <script>
 import axios from 'axios'
 import imagesLoaded from 'vue-images-loaded'
+import isotope from 'vueisotope'
 import { Stack, StackItem } from 'vue-stack-grid'
 
 export default {
@@ -27,25 +29,55 @@ export default {
   data() {
     return {
       currentPage: 1,
-      items: []
+      items: [],
+      currentLayout: 'masonry',
+      selected: null,
+      sortOption: "original-order",
+      filterOption: "show all",
+      option: {
+        itemSelector: "grid-item",
+        getFilterData: {
+          "show all": function () {
+            return true;
+          },
+          metal: function (el) {
+            return !!el.metal;
+          },
+          transition: function (el) {
+            return el.category === "transition";
+          },
+          "alkali and alkaline-earth": function (el) {
+            return el.category === "alkali" || el.category === "alkaline-earth";
+          },
+          "not transition": function (el) {
+            return el.category !== "transition";
+          },
+
+          "metal but not transition": function (el) {
+            return !!el.metal && el.category !== "transition";
+          },
+          "number > 50": function (el) {
+            return el.number > 50;
+          },
+          "name ends with ium": function (el) {
+            return el.name.match(/ium$/);
+          }
+        }
+      }
     }
   },
   directives: {
-    imagesLoaded,
+    imagesLoaded
   },
-  components: { Stack, StackItem },
+  components: { isotope, Stack, StackItem },
   methods: {
     imageProgress(instance, image) {
-      const result = image.isLoaded ? 'loaded' : 'broken';
-      console.log('image is ' + result + ' for ' + image.img.src);
-    },
-    layout() {
-      this.$refs.cpt.layout('masonry');
+      const result = image.isLoaded ? 'loaded' : 'broken'
     }
   },
   mounted() {
     let self = this
-    let $url = "https://sempre9mai.cafe24.com/2018/api/mayonnaise/getGalleryList.php";
+    let $url = "https://sempre9mai.cafe24.com/2018/api/mayonnaise/getGalleryList.php"
     axios.get($url, {
       params: {
         page: self.currentPage
@@ -54,10 +86,8 @@ export default {
       let getList = res.data.LIST
 
       for (let i = 0; i < getList.length; i++) {
-        console.log(getList[i])
-
         self.items.push(getList[i])
-        window.dispatchEvent(new Event('resize'));
+        //window.dispatchEvent(new Event('resize'));
       }
     }).catch(err => {
       console.log(err)
@@ -68,6 +98,21 @@ export default {
 </script>
 
 <style>
+.view-area .grid-item {
+  position: relative;
+  float: left;
+  max-width: 32%;
+  min-width: 120px;
+  margin: 5px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rbga(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.view-area .grid-item > img {
+  width: 100%;
+}
+
 .vsg-stack-item {
   position: relative;
   transition: left 300ms, top 300ms;
