@@ -1,26 +1,33 @@
 <template>
   <PageArticle>
     <h4 slot="title">갤러리</h4>
-    <div slot="content">
+    <div slot="content" ref="formContainer">
       <section>
-        <div class="view-area" v-images-loaded:on.progress="imageProgress">
 
-          <isotope :itemSelector="option.itemSelector" :options='option' :list="items" :filter="filterOption" :sort="sortOption">
-            <div v-for="item in items" :key="item.RNO">
-              <img :src="'https://sempre9mai.cafe24.com/2018/api/mayonnaise/upload/'+item.PATH" />
-            </div>
-          </isotope>
-        </div>
+        <isotope ref="isotope" :itemSelector="option.itemSelector" :options='option' :list="items" :filter="filterOption" :sort="sortOption" class="grid-container" v-images-loaded:on="getLoadingCallBack()">
+          <div v-for="item in items" :key="item.RNO">
+            <img :src="'https://sempre9mai.cafe24.com/2018/api/mayonnaise/upload/'+item.PATH" />
+          </div>
+        </isotope>
+
       </section>
     </div>
   </PageArticle>
 </template>
 
 <script>
+import Vue from 'vue';
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.min.css';
+// Init plugin
+Vue.use(Loading);
+
 import axios from 'axios'
 import imagesLoaded from 'vue-images-loaded'
 import isotope from 'vueisotope'
-import { Stack, StackItem } from 'vue-stack-grid'
+//import { Stack, StackItem } from 'vue-stack-grid'
 
 export default {
   head: {
@@ -28,40 +35,19 @@ export default {
   },
   data() {
     return {
+      fullPage: true,
       currentPage: 1,
       items: [],
-      currentLayout: 'masonry',
-      selected: null,
       sortOption: "original-order",
       filterOption: "show all",
       option: {
         itemSelector: "grid-item",
-        getFilterData: {
-          "show all": function () {
-            return true;
-          },
-          metal: function (el) {
-            return !!el.metal;
-          },
-          transition: function (el) {
-            return el.category === "transition";
-          },
-          "alkali and alkaline-earth": function (el) {
-            return el.category === "alkali" || el.category === "alkaline-earth";
-          },
-          "not transition": function (el) {
-            return el.category !== "transition";
-          },
-
-          "metal but not transition": function (el) {
-            return !!el.metal && el.category !== "transition";
-          },
-          "number > 50": function (el) {
-            return el.number > 50;
-          },
-          "name ends with ium": function (el) {
-            return el.name.match(/ium$/);
-          }
+        ayoutMode: 'masonry',
+        masonry: {
+          gutter: 3
+        },
+        getSortData: {
+          name: "name"
         }
       }
     }
@@ -69,47 +55,97 @@ export default {
   directives: {
     imagesLoaded
   },
-  components: { isotope, Stack, StackItem },
+  components: {
+    isotope,
+    //Stack, StackItem 
+  },
   methods: {
-    imageProgress(instance, image) {
-      const result = image.isLoaded ? 'loaded' : 'broken'
+    getLoadingCallBack() {
+      return {
+        progress: (instance, img) => {
+          this.loading = true
+          this.currentImg++
+          this.maxImg = instance.images.length
+          if (!img.isLoaded) {
+            this.status = 'danger'
+          }
+          this.$refs.isotope.layout('masonry')
+        },
+        always: (instance) => {
+          setTimeout(() => {
+            this.loading = false
+            this.currentImg = 0
+          }, 250);
+        }
+      }
+    },
+    getGallerylist() {
+      let self = this
+      let $url = "https://sempre9mai.cafe24.com/2018/api/mayonnaise/getGalleryList.php"
+
+      let loader = this.$loading.show({
+        container: this.fullPage ? null : this.$refs.formContainer
+      });
+
+      axios.get($url, {
+        params: {
+          page: self.currentPage
+        }
+      }).then(res => {
+        let getList = res.data.LIST
+
+        for (let i = 0; i < getList.length; i++) {
+          self.items.push(getList[i])
+          //window.dispatchEvent(new Event('resize'));
+        }
+        self.currentPage++
+        loader.hide()
+      }).catch(err => {
+        console.log(err)
+        alert("리스트를 가져오는데 실패했어요ㅠ")
+        loader.hide()
+      })
     }
   },
   mounted() {
-    let self = this
-    let $url = "https://sempre9mai.cafe24.com/2018/api/mayonnaise/getGalleryList.php"
-    axios.get($url, {
-      params: {
-        page: self.currentPage
-      }
-    }).then(res => {
-      let getList = res.data.LIST
-
-      for (let i = 0; i < getList.length; i++) {
-        self.items.push(getList[i])
-        //window.dispatchEvent(new Event('resize'));
-      }
-    }).catch(err => {
-      console.log(err)
-      alert("에러")
-    })
+    this.getGallerylist()
   }
 }
 </script>
 
 <style>
-.view-area .grid-item {
-  position: relative;
-  float: left;
-  max-width: 32%;
-  min-width: 120px;
-  margin: 5px;
+.grid-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+.grid-item {
+  max-width: 23%;
+  margin: 1% 0.5%;
   border-radius: 10px;
-  box-shadow: 0 0 10px rbga(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.4);
   overflow: hidden;
 }
+.grid-item:hover {
+  transition: transform 0.3s;
+  transform: scale(1.05);
+}
 
-.view-area .grid-item > img {
+@media (min-width: 450px) and (max-width: 900px) {
+  .grid-item {
+    max-width: 32%;
+  }
+}
+
+@media all and (max-width: 449px) {
+  .grid-item {
+    max-width: 48%;
+  }
+}
+
+.grid-item > img {
   width: 100%;
 }
 
